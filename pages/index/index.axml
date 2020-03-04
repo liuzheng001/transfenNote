@@ -1,0 +1,35 @@
+<view class="page">
+
+    <modal show="{{modalOpened}}" onModalClick="onModalClick"  topImage="{{qrCode}}" zIndex="9999">
+        <view slot="header">请展示给放发人</view>
+        需要放发人在{{countTime}}秒内通过验证,否则将中止验证,需要您再次发启.
+        <view slot="footer">确定</view>
+    </modal>
+
+    <view class="page-section">
+        <button style="width:100%" type="primary" open-type="getAuthorize" onGetAuthorize="onGetAuthorize"  scope="userInfo">发票二维码</button>
+        <!-- <view class="user-info" a:if="{{userInfo && userInfo.nickName}}"> -->
+        <view class="user-info" >
+          <image mode="scaleToFill" src="{{userInfo && userInfo.avatar || '../../assets/images/avatar.png'}}"/>
+          <view class="user-name">
+            {{userInfo && userInfo.nickName}}
+          </view>
+            <!-- <view class="user-name">
+                {{userInfo && userInfo.userId}}
+            </view> -->
+      </view>
+  </view>
+    <view a:if="{{items.length>0}}" class="page-section" >
+        <view  onTap="enterInvoiceFlowDetail">
+            <steps
+                    className="demo-steps-class"
+                    direction="vertical"
+                    failIndex="{{failIndex}}"
+                    activeIndex="{{activeIndex}}"
+                    items="{{items}}"
+                    size="{{size}}"
+            />
+        </view>
+    <button style="primary" onTap="refreshList">刷新</button>
+    </view>
+</view>

@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "searchlist": "/components/searchList/searchList",
+      "modal": "mini-ali-ui/es/modal/index"
+
+  }
+}

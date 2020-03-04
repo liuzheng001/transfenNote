@@ -1,0 +1,63 @@
+<view class="page">
+  <view class="page-section">
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">发票代号</view>
+      <view class="row-extra" ><input  value="{{invoiceParams.invoiceCode}}" disabled="true" /></view>
+    </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">发票号码</view>
+      <view class="row-extra"><input  value="{{invoiceParams.invoiceNumber}}" disabled="true" /></view>
+    </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">金额</view>
+      <view class="row-extra"><input  value="{{invoiceParams.invoiceAmount}}" disabled="true" /></view>
+    </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">开票日期</view>
+      <view class="row-extra"><input  value="{{invoiceParams.date}}" disabled="true" /></view>
+    </view>
+    <view a:if="{{invoiceObj.type !== '增值税专用发票'}}" class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">校验码</view>
+      <view class="row-extra"><input  value="{{invoiceParams.checkCode}}" disabled="true" /></view>
+    </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">购买客户</view>
+      <view class="row-extra">
+        <input value="{{invoiceParams.customName}}" disabled="true"></input>
+      </view>
+    </view>
+  </view>
+
+  <view class="page-section">
+    <view style="border-bottom: 1px solid #ddd">
+      <view class="row-title">支付宝ID</view>
+      <view class="row-extra"><input name="alipayId" value="{{invoiceParams.userInfo.userId}}" disabled="true" /></view>
+    </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">接受人公司</view>
+      <view class="row-extra">
+        <input name="acceptCompany" value="{{invoiceParams.userInfo.acceptCompany}}" ></input>
+      </view>
+    </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">称谓</view>
+      <view class="row-extra">
+        <input name="nickName" value="{{invoiceParams.userInfo.nickName}}" disabled="true"/>
+      </view>
+    </view>
+
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">接收人手机</view>
+      <view class="row-extra" ><input name="phoneNumber" value="{{invoiceParams.userInfo.phoneNumber}}" disabled="true" /></view>
+    </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">职务</view>
+      <view class="row-extra" ><input name="job" value="{{invoiceParams.userInfo.job}}" disabled="true" /></view>
+    </view>
+
+  </view>
+  <view class="fixed-button">
+    <button type="primary" onTap="verification">验证</button>
+  </view>
+</view>
+

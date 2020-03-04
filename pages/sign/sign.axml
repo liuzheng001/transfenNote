@@ -1,0 +1,10 @@
+<view class="container">
+  <!-- 签名画布 -->
+  <!-- <canvas class="canvas" id="canvas" canvas-id="canvas" disable-scroll="true" onTouchStart="canvasStart" bindtouchmove="canvasMove" bindtouchend="canvasEnd" touchcancel="canvasEnd" binderror="canvasIdErrorCallback" onTouchMove="canvasMove" onTouchEnd="canvasEnd" onTouchCancel="canvasEnd"></canvas> -->
+  <canvas class="canvas" id="canvas" canvas-id="canvas" disable-scroll="true" onTouchStart="canvasStart" onTouchMove="canvasMove" onTouchEnd="canvasEnd" onTouchCancel="canvasEnd"></canvas>
+  <view class="buttonBox">
+    <button bindtap="clickMe" class="addbutton" open-type="getuserinfo">点击我生成图片保存相册</button>
+    <button type="default" class="delbutton" onTap="cleardraw">清除</button>
+  </view>
+</view>
+<canvas id="{{canvasId}}"></canvas>

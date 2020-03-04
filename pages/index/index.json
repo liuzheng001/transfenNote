@@ -1,0 +1,7 @@
+{
+  "usingComponents":{
+    "steps": "mini-ali-ui/es/steps/index",
+    "modal": "mini-ali-ui/es/modal/index"
+
+  }
+}

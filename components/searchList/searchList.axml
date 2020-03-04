@@ -1,0 +1,23 @@
+<view>
+  <view class="search-container" >
+    <view class="search-outer">
+      <input
+        name = "customName"
+        type="search"
+        class="search-input"
+        value="{{inputVal}}"
+        onInput="onInput"
+        onFocus="showCancel"
+        onBlur = "onBlur"
+      />
+      <text class="search-cancel" style="margin-right:{{inputStatus.marginRight}};opacity:{{inputStatus.opacity}}" onTap="clearSearch">取消</text>
+    </view>
+      <scroll-view scroll-y="true" class="searchResult" a:if="{{inputVal.length > 0&&lostFocus==false}}" style="height: 400rpx;" >
+        <block a:for="{{searchList}}" a:key="key">
+          <view class='searchCell'  data-index='{{index}}' data-name='{{item.name}}' data-customId="{{item.id}} " onTap='getSearchCell'>
+            {{item.name}}
+          </view>
+        </block>
+      </scroll-view>
+  </view>
+</view>

@@ -1,0 +1,130 @@
+<view class="page">
+  <view class="title-section">
+    <text class="title">{{invoiceObj.type}}</text>
+  </view>
+  <modal show="{{modalOpened}}" onModalClick="onModalClick" topImage="{{qrCode}}" zIndex="9999">
+    <view slot="header">请展示给放发人</view>
+    需要放发人在{{countTime}}秒内通过验证,否则将中止验证,需要您再次发启.
+    <view slot="footer">确定</view>
+  </modal>
+
+  <form onSubmit= {{newInvoice?"confirmInvoice":"formSubmit"}} report-submit="{{true}}">
+    <view class="page-section">
+      <view class="row" style="border-bottom: 1px solid #ddd">
+        <view class="row-title">发票代号</view>
+        <view class="row-extra" ><input  value="{{invoiceObj.invoiceCode}}" disabled="true" /></view>
+      </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">发票号码</view>
+      <view class="row-extra">
+        <input value="{{invoiceObj.invoiceNumber}}" disabled="true"></input>
+      </view>
+    </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">金额</view>
+      <view class="row-extra">
+        <input value="{{invoiceObj.invoiceAmount}}" disabled="true"></input>
+      </view>
+    </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">开票日期</view>
+      <view class="row-extra">
+        <input value="{{invoiceObj.date}}" disabled="true"></input>
+      </view>
+    </view>
+    <view a:if="{{invoiceObj.type !== '增值税专用发票'}}" class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">校验码</view>
+      <view class="row-extra">
+        <input value="{{invoiceObj.checkCode}}" disabled="true"></input>
+      </view>
+    </view>
+    <!-- 开票单位,默认为长凯科技 -->
+    <view  class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">开票单位</view>
+      <view class="row-extra">
+        <input value="{{ourCompany}}"></input>
+      </view>
+    </view>
+
+      <!--购买客户-->
+    <view a:if="{{newInvoice}}" class="row">
+      <view class="row-title">
+        <text style="color:red">*</text>
+        购买客户
+      </view>
+      <searchlist customList="{{customList}}" onCustomListIndex="onCustomListIndex"></searchlist>
+    </view>
+    <view a:else class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">购买客户</view>
+      <view class="row-extra">
+        <input value="{{customName}}" disabled="true"></input>
+      </view>
+    </view>
+  </view>
+  <view>
+    <button type="primary"  onTap="showFlowContent" disabled="{{isCreateFlow}}" >新建流转</button>
+  </view>
+  <view a:if="{{isCreateFlow}}" class="title-section">
+    <text class="title">接收人确认</text>
+  </view>
+  <view a:if="{{isCreateFlow}}" class="page-section">
+    <radio-group class="radio-group" onChange="radioChange" name="lib" style="text-align:right;font-size:32rpx">
+      <label class="radio" key="label-0">
+        <radio value="ourCompany" ></radio>
+        <text class="radio-text">本公司</text>
+      </label>
+      <label class="radio" key="label-1">
+        <radio value="externalCompany" ></radio>
+        <text class="radio-text">外部公司</text>
+      </label>
+    </radio-group>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">接受人公司</view>
+      <view class="row-extra">
+        <input name="acceptCompany" value="{{acceptCompany}}"></input>
+      </view>
+    </view>
+    <view a:if="{{invoiceObj.userInfo.userId}}" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">支付宝ID</view>
+      <view class="row-extra">
+        <input name="alipayId" value="{{invoiceObj.userInfo.userId}}" disabled="true"></input>
+      </view>
+    </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">称谓</view>
+      <view class="row-extra">
+        <input name="nickName" value="{{invoiceObj.userInfo.nickName}}"></input>
+      </view>
+    </view>
+    <view class="row" style="border-bottom: 1px solid #ddd">
+      <view class="row-title">接收人手机</view>
+      <view class="row-extra">
+        <input name="phoneNumber"></input>
+      </view>
+    </view>
+    <picker onChange="jobSelect" value="{{jobIndex}}" range="{{jobList}}">
+      <view class="row" style="border-bottom: 1px solid #ddd">
+        <view class="row-title">
+          <text style="color:red">*</text>
+          职务
+        </view>
+        <view class="row-extra">
+          <input name="job" value="{{jobList[jobIndex]}}" disabled="true"></input>
+        </view>
+        <view class="a-list-arrow a-list-arrow-horizontal"></view>
+      </view>
+    </picker>
+    <view>
+      <textarea class="multilineInput" name="remark" placeholder="备注"></textarea>
+    </view>
+  </view>
+  <view a:if="{{newInvoice}}" class="fixed-button">
+    <button type="default" onTap="cancelAndBack">关闭</button>
+    <button type="primary" formType="submit" disabled="{{!isCreateFlow}}">确认开票</button>
+  </view>
+  <view a:else class="fixed-button">
+    <button type="default" onTap="cancelAndBack">关闭</button>
+    <button type="primary" formType="submit" disabled="{{!isCreateFlow}}">接受票据</button>
+  </view>
+  </form>
+</view>
