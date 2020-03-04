@@ -6,7 +6,7 @@ import {
 App({
     userId: null,
     externalParams:null,
-    _companyName: "重庆长凯科技有限责任公司adsf ",
+    _companyName: "重庆长凯科技有限责任公司",
     async getUserId() {
         if (this.userId) { 
             return this.userId;
