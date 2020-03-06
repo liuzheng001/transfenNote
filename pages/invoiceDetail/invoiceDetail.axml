@@ -119,11 +119,11 @@
     </view>
   </view>
   <view a:if="{{newInvoice}}" class="fixed-button">
-    <button type="default" onTap="cancelAndBack">关闭</button>
+    <button style="color:orange;border-color:orange" onTap="cancelAndBack">关闭</button>
     <button type="primary" formType="submit" disabled="{{!isCreateFlow}}">确认开票</button>
   </view>
   <view a:else class="fixed-button">
-    <button type="default" onTap="cancelAndBack">关闭</button>
+    <button style="color:orange;border-color:orange" onTap="cancelAndBack">关闭</button>
     <button type="primary" formType="submit" disabled="{{!isCreateFlow}}">接受票据</button>
   </view>
   </form>

@@ -59,5 +59,11 @@
   <view class="fixed-button">
     <button type="primary" onTap="verification">验证</button>
   </view>
+  <view a:if={{mode!=="check"}} class="fixed-button">
+    <button type="primary" onTap="verification">验证</button>
+  </view>
+  <view a:else class="fixed-button">
+    <button type="primary" onTap="returnFirstPage">关闭</button>
+  </view>
 </view>
 

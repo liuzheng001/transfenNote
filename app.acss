@@ -1,4 +1,4 @@
-page {
+/*page {
   background-color: #F7F7F7;
   border: 1px solid rgba(0,0,0,0);
   box-sizing: border-box;
@@ -19,7 +19,30 @@ page {
 .page-section {
   background: #fff;
   margin-bottom: 32rpx;
+}*/
+
+page {
+  background-color: #F7F7F7;
+  border: 1px solid rgba(0,0,0,0);
+  box-sizing: border-box;
 }
+
+.page {
+  font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+  font-size: 24rpx;
+  padding: 32rpx;
+  flex: 1;
+}
+
+.page-description {
+  margin-bottom: 32rpx;
+}
+
+.page-section {
+  background: #fff;
+  margin-bottom: 32rpx;
+}
+
 
 .page-section-title {
   padding: 16rpx 32rpx;

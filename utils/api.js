@@ -1,5 +1,3 @@
-const API_HOST = 'http://r1w8478651.imwork.net:9998/shoppay-php';
-
 /**
  * JSAPI getAuthCode
  */
@@ -22,7 +20,7 @@ export function getAuthCode(scopes) {
  */
 export function getUserInfo(authCode) {
   return new Promise((resolve, reject) => {
-    const url = `${API_HOST}/aop/controller/getUserIdForInvoiceTransferController.php`;
+    const url = `${getApp().domain}/ailiController-php/aop/controller/getUserIdForInvoiceTransferController.php`;
     my.request({
       url,
       data: {
@@ -49,7 +47,7 @@ export function getUserInfo(authCode) {
  */
 export function getCustomList() {
     return new Promise((resolve, reject)=>{
-        const url = "http://r1w8478651.imwork.net:9998/eapp-corp/getFmMessage.php";
+        const url = `${getApp().domain}/getFmMessage.php`;
         my.request({
             url: url,
             method: 'get',
@@ -75,7 +73,7 @@ export function getCustomList() {
 export  function verificationPass(invoiceParams) {
     return new Promise((resolve, reject)=>{
         my.request({
-            url: `http://r1w8478651.imwork.net:9998/eapp-corp/fmSailsStatistics.php`,
+            url: `${getApp().domain}/fmSailsStatistics.php`,
             data: {
                 action: "verificationPass",
                 invoiceParams,
@@ -104,7 +102,7 @@ export  function verificationPass(invoiceParams) {
 export  function refuseverification(invoiceParams) {
     return new Promise((resolve, reject)=>{
         my.request({
-            url: `http://r1w8478651.imwork.net:9998/eapp-corp/fmSailsStatistics.php`,
+            url: `${getApp().domain}/fmSailsStatistics.php`,
             data: {
                 action: "refuseverification",
                 invoiceParams,

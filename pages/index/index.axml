@@ -9,15 +9,15 @@
     <view class="page-section">
         <button style="width:100%" type="primary" open-type="getAuthorize" onGetAuthorize="onGetAuthorize"  scope="userInfo">发票二维码</button>
         <!-- <view class="user-info" a:if="{{userInfo && userInfo.nickName}}"> -->
-        <view class="user-info" >
+       <!-- <view class="user-info" >
           <image mode="scaleToFill" src="{{userInfo && userInfo.avatar || '../../assets/images/avatar.png'}}"/>
           <view class="user-name">
             {{userInfo && userInfo.nickName}}
           </view>
-            <!-- <view class="user-name">
+            &lt;!&ndash; <view class="user-name">
                 {{userInfo && userInfo.userId}}
-            </view> -->
-      </view>
+            </view> &ndash;&gt;
+      </view>-->
   </view>
     <view a:if="{{items.length>0}}" class="page-section" >
         <view  onTap="enterInvoiceFlowDetail">

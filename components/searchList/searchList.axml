@@ -3,7 +3,7 @@
     <view class="search-outer">
       <input
         name = "customName"
-        type="search"
+        type="text"
         class="search-input"
         value="{{inputVal}}"
         onInput="onInput"

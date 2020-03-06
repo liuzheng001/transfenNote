@@ -74,8 +74,8 @@ async formSubmit(event) {
     if ( !checkform(form,this.customId)) return;
     my.confirm({
         itle: '提示',
-        content: '向手机发送确认信息',
-        confirmButtonText: '发送',
+        content: '授受票据?',
+        confirmButtonText: '确认',
         success: async (result) => {
             if (result.confirm == true) {
                 //若上一个流转确认为1,则建立新发票流转记录
@@ -104,6 +104,7 @@ async formSubmit(event) {
                     //发送二维码交接
                     if (res.Code == 0) {  //需要发放人确认
                         const invoiceParams =  res.data;
+                        console.log("准备生成二维码:"+JSON.stringify(invoiceParams))
                         if (invoiceParams.flowConfirm == 0) {
                             const qrCode = await this.getQRCode(invoiceParams);
                             this.setData({
@@ -251,11 +252,11 @@ async formSubmit(event) {
             duration: 3000
         });
     },
-    /***
+    /*/!***启用
      * 短信方式让发放人确认接受链接,使用阿里短信服务,按次计算,约4分每条
      * @param options
      * @returns {Promise<void>}
-     */
+     *!/
     sendSMSLink(invoiceFlowId,confirmPhoneNumber) {
         return new Promise((resolve, reject)=>{
               const url = `http://r1w8478651.imwork.net:9998/ailishortmessage-php/smssend.php`
@@ -277,7 +278,7 @@ async formSubmit(event) {
                 },
             });
         })
-    },
+    },*/
     /***
      * 向后台查询票据,不存在则建立新的开票和流转记录
      * @param invoice对象,向后台传递
@@ -285,7 +286,7 @@ async formSubmit(event) {
      */
     isExistInvoice(invoiceParams) {
         return new Promise((resolve, reject)=>{
-            const url = `http://r1w8478651.imwork.net:9998/eapp-corp/fmSailsStatistics.php`;
+            const url = `${getApp().domain}/fmSailsStatistics.php`;
             my.request({
                 url: url,
                 data: {
@@ -312,7 +313,7 @@ async formSubmit(event) {
      */
     createInvoiceFlow(invoiceParams) {
         return new Promise((resolve, reject)=>{
-            const url = `http://r1w8478651.imwork.net:9998/eapp-corp/fmSailsStatistics.php`;
+            const url = `${getApp().domain}/fmSailsStatistics.php`;
             my.request({
                 url: url,
                 data: {
@@ -342,13 +343,15 @@ async formSubmit(event) {
         // const invoiceParams = {invoiceCode:this.data.invoiceObj.invoiceCode,invoiceNumber:this.data.invoiceObj.invoiceNumber};
         return new Promise((resolve, reject)=>{
             my.request({
-                url: `http://r1w8478651.imwork.net:9998/shoppay-php/aop/controller/alipayOpenAppQrcodeCreate.php`,
+                // url: `${getApp().applicationServer}/aop/controller/alipayOpenAppQrcodeCreate.php`,
+                url: `${getApp().domain}/ailiController-php/aop/controller/alipayOpenAppQrcodeCreate.php`,
                 data: {
                     url_param: "pages/verification/verification",//小程序页面
                     query_param: `{\\\"invoiceFlowId\\\":\\\"${invoiceParams.invoiceFlowId}\\\",\\\"issueUserId\\\":\\\"${invoiceParams.issueUserId}\\\"}` ,
                     describe: "小程序验证"
                 },
                 success: async (res) => {
+                    console.log(JSON.stringify(res))
                     if (!res.data.success) {
                         reject({
                             code: res.data.code,
@@ -363,6 +366,7 @@ async formSubmit(event) {
                     }
                 },
                 fail: (error) => {
+                    console.log(JSON.stringify(error))
                     reject({
                         message: '二维码生成异常',
                         error
@@ -455,7 +459,7 @@ function checkform(form,customName) {
 function updateQrcode(invoiceParams) {
     return new Promise((resolve, reject)=>{
         my.request({
-            url: `http://r1w8478651.imwork.net:9998/eapp-corp/fmSailsStatistics.php`,
+            url: `${getApp().domain}/fmSailsStatistics.php`,
             data: {
                 action: "updateQrcode",
                 invoiceParams:JSON.stringify(invoiceParams),
@@ -484,7 +488,7 @@ function updateQrcode(invoiceParams) {
 function createInvoice(invoiceParams) {
     return new Promise((resolve, reject)=>{
         my.request({
-            url: `http://r1w8478651.imwork.net:9998/eapp-corp/fmSailsStatistics.php`,
+            url: `${getApp().domain}/fmSailsStatistics.php`,
             data: {
                 action: "createInvoice",
                 invoiceParams:JSON.stringify(invoiceParams),
@@ -512,7 +516,7 @@ function createInvoice(invoiceParams) {
 function isCreateFlow(invoiceParams) {
     return new Promise((resolve, reject)=>{
         my.request({
-            url: `http://r1w8478651.imwork.net:9998/eapp-corp/fmSailsStatistics.php`,
+            url: `${getApp().domain}/fmSailsStatistics.php`,
             data: {
                 action: "isCreateFlow",
                 invoiceParams:JSON.stringify(invoiceParams),

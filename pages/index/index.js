@@ -42,8 +42,11 @@ Page({
                       },
                       success: (res) => {
                           userInfo = JSON.parse(res.response).response // 以下方的报文格式解析两层 response
-                          this.setData({
+                          /*this.setData({
                               userInfo : userInfo
+                          });*/
+                          my.setOptionMenu({
+                              icon: userInfo.avatar,
                           });
                       }
                   });
@@ -54,11 +57,9 @@ Page({
           }
       })
     }catch(e){
-          my.alert({content:'认证失败.'})
+          my.alert({content:'首页载入失败.'})
       }
     try{
-        console.log("adfa")
-
           const {invoiceCode,invoiceNumber} = query
           if (invoiceCode && invoiceNumber) {
               const result = await queryInvoiceFlowList(invoiceCode,invoiceNumber);
@@ -87,7 +88,8 @@ Page({
 },
   async onShow(query){
   },
-    async onGetAuthorize(res) {
+
+  async onGetAuthorize(res) {
         let userInfo;
         try {
         await   my.getOpenUserInfo({
@@ -106,7 +108,7 @@ Page({
           userInfo.userId = userId;
 
         }catch (e) {
-          my.alert({content:'认证失败.'})
+          // my.alert({content:'获取发票信息失败.'})
       }
         this.setData({
             userInfo : userInfo
@@ -252,7 +254,7 @@ function queryInvoiceFlowList(invoiceCode,invoiceNumber) {
     const invoiceParams = {invoiceCode,invoiceNumber}
     return new Promise((resolve, reject)=>{
         my.request({
-            url: `http://r1w8478651.imwork.net:9998/eapp-corp/fmSailsStatistics.php`,
+            url: `${getApp().domain}/fmSailsStatistics.php`,
             data: {
                 action: "queryInvoiceFlowList",
                 invoiceParams:JSON.stringify(invoiceParams),

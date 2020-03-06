@@ -3,21 +3,26 @@ import {verificationPass,refuseverification} from "../../utils/api";
 Page({
   data: {
     invoiceParams:null,
+      mode:"",//空值代表验证,check代表查看
   },
   async onLoad(query) {
-      console.log("params"+JSON.stringify(query));
+      console.log("params"+JSON.stringify(query));//query有mode,则代表是查看
 
       try {
-          const app = getApp();              
-
+          my.showLoading();
+          const app = getApp();
           if (app.externalParams || query.invoiceFlowId ) { //二维码得到的信息,发票的invoiceFlowId
-
               //得到当前支付宝的userId
               const userId = await app.getUserId()
               let params = null;
               if (query.invoiceFlowId) {
                   params = {...query,userId: userId,} //mode=check,不判断userId
-                  console.log("adf"+JSON.stringify(params))
+                  if (params.mode == "check") {
+                      this.setData({
+                          mode:"check"
+                      })
+                  }
+                  // console.log("adf"+JSON.stringify(params))
               }else{
                   params = {...app.externalParams, ...{userId: userId}}
               }
@@ -25,15 +30,20 @@ Page({
               this.setData({
                   invoiceParams
               })
+              my.hideLoading();
           }
       }catch (e) {
         //   my.showToast({content:e.message,duration: 3000});
+          my.hideLoading();
         my.alert({
             content:e.message,
             success:()=>{
-                const app = getApp();
+                /*const app = getApp();
                 my.reLaunch({
-                    url:`/pages/index/index?invoiceCode=${app.externalParams.invoiceCode}&invoiceNumber=${app.externalParams.invoiceNumber}`
+                    url:`/pages/index/index?invoiceFlowId=${app.externalParams.invoiceFlowId}&invoiceNumber=${app.externalParams.invoiceNumber}`
+                })*/
+                my.reLaunch({
+                    url:`/pages/index/index`
                 })
             }
         });
@@ -42,7 +52,6 @@ Page({
 
   },
   async  verification() {
-
      my.confirm({
           itle: '提示',
           content: '验证确认',
@@ -54,34 +63,42 @@ Page({
                   try {
                           const result = await verificationPass(JSON.stringify(this.data.invoiceParams))
                           if (result  === true) {
-                              my.showToast({content: "流转成功"});
+                              // my.showToast({content: "流转成功"});
+                              // console.log(JSON.stringify(app.externalParams))
+                              my.reLaunch({
+                                  url:`/pages/index/index?invoiceCode=${this.data.invoiceParams.invoiceCode}&invoiceNumber=${this.data.invoiceParams.invoiceNumber}`
+                              })
                           }
 
                   }catch (e) {
                       my.showToast({content:e.message});
+                      my.navigateBack();
 
                   }
               }else{ //拒绝,将删除该流转记录,该记录后台被删除,但在前台通过缓存保留,只保留一个,后来的替代
                   try {
                           const result = await refuseverification(JSON.stringify(this.data.invoiceParams))
                           if (result  === true) {
-                              my.alert({content: "中止流转"});
+                              // my.alert({content: "中止流转"});
+                              my.reLaunch({
+                                  url:`/pages/index/index?invoiceCode=${this.data.invoiceParams.invoiceCode}&invoiceNumber=${this.data.invoiceParams.invoiceNumber}`
+                              })
                           }
 
                   }catch (e) {
                       my.showToast({content:e.message});
-
+                      my.navigateBack();
                   }
               }
-              // console.log(JSON.stringify(app.externalParams))
-               my.reLaunch({
-                   url:`/pages/index/index?invoiceCode=${this.data.invoiceParams.invoiceCode}&invoiceNumber=${this.data.invoiceParams.invoiceNumber}`
-               })
+
           },
           fail: () => {
           }
       });
 
+    },
+    returnFirstPage(){
+      my.navigateBack();
     },
 
     /***
@@ -94,11 +111,10 @@ Page({
         console.log("mode"+params)
         return new Promise((resolve, reject)=>{
             my.request({
-                url: `http://r1w8478651.imwork.net:9998/eapp-corp/fmSailsStatistics.php`,
+                url: `${getApp().domain}/fmSailsStatistics.php`,
                 data: {
                     action: "queryUserIdVerifaction",
                     params,
-
                 },
                 success: (res) => {
                     if (res.data.success) {

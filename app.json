@@ -8,8 +8,7 @@
     "pages/sign/sign"
   ],
   "window": {
-    "transparentTitle": "always",
-    "titlePenetrate": true,
+
     "backgroundImageColor": "#3264C5"
   }
 }
